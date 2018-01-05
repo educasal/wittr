@@ -1,30 +1,22 @@
-self.addEventListener('fetch', function(event) {
-	// Ex1: respond to all requests with an html response
-	// containing an element with class="a-winner-is-me".
-	// Ensure the Content-Type of the response is "text/html"
-  // event.respondWith(
-  //   new Response('You\'re <span class="a-winner-is-me">fucked</span>', {
-  //     headers: {'Content-Type': 'text/html'}
-  //   })
-  // );
+// Ex4: Cache requests
 
-  // Ex2: only respond to requests with a
-  // url ending in ".jpg"
-  // const url = event.request.url;
-  // if (url.match(/\.jpg$/)) {
-  //   event.respondWith(fetch('/imgs/dr-evil.gif'));
-  // }
+self.addEventListener('install', function(event) {
+  var urlsToCache = [
+    '/',
+    'js/main.js',
+    'css/main.css',
+    'imgs/icon.png',
+    'https://fonts.gstatic.com/s/roboto/v15/2UX7WLTfW3W8TclTUvlFyQ.woff',
+    'https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOD8E0i7KZn-EPnyo3HZu7kw.woff'
+  ];
 
-  //Ex3: respond with a gif to 404 errors
-  event.respondWith(
-    fetch(event.request).then(function(response) {
-      if (response.status === 404) {
-        return fetch('/imgs/dr-evil.gif');
-      }
-      return response;
-    }).catch(function() {
-      return new Response("Uh oh, that totally failed!");
-    })
+  event.waitUntil(
+    // TODO: open a cache named 'wittr-static-v1'
+    // Add cache the urls from urlsToCache
   );
+});
 
+self.addEventListener('fetch', function(event) {
+  // Leave this blank for now.
+  // We'll get to this in the next task.
 });
