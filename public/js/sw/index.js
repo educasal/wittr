@@ -10,9 +10,23 @@ self.addEventListener('fetch', function(event) {
 
   // Ex2: only respond to requests with a
   // url ending in ".jpg"
-  const url = event.request.url;
-  if (url.match(/\.jpg$/)) {
-    event.respondWith(fetch('/imgs/dr-evil.gif'));
-  }
+  // const url = event.request.url;
+  // if (url.match(/\.jpg$/)) {
+  //   event.respondWith(fetch('/imgs/dr-evil.gif'));
+  // }
+
+  //Ex3: respond with a gif to 404 errors
+  event.respondWith(
+    fetch(event.request).then(function(response) {
+      if (response.status === 404) {
+        return fetch('/imgs/dr-evil.gif').then(function(gifResponse){
+          return gifResponse;
+        });
+      }
+      return response;
+    }).catch(function() {
+      return new Response("Uh oh, that totally failed!");
+    })
+  );
 
 });
