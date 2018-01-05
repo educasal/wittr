@@ -11,12 +11,26 @@ self.addEventListener('install', function(event) {
   ];
 
   event.waitUntil(
-    // TODO: open a cache named 'wittr-static-v1'
+    // open a cache named 'wittr-static-v1'
     // Add cache the urls from urlsToCache
+    caches.open('wittr-static-v1').then(function(cache) {
+      cache.addAll(urlsToCache);
+    })
   );
 });
 
 self.addEventListener('fetch', function(event) {
-  // Leave this blank for now.
-  // We'll get to this in the next task.
+  const url = event.request.url;
+  caches.match(url);
+
+  event.respondWith(
+    caches.open('wittr-static-v1').then(function(cache) {
+      return cache.match(url).then(function(response) {
+        if(response) {
+          return response;
+        }
+        return fetch(url);
+      });
+    })
+  );
 });
