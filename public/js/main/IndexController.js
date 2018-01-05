@@ -12,7 +12,7 @@ export default function IndexController(container) {
 }
 
 //Register the service worker in the sw folder; otherwise, it won't work
-IndexController.prototype._registerServiceWorker() {
+IndexController.prototype._registerServiceWorker = function() {
   if (!navigator.serviceWorker) return;
 
   navigator.serviceWorker.register('/sw.js').then(function(registration) {
