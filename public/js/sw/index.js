@@ -26,10 +26,7 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.open('wittr-static-v1').then(function(cache) {
       return cache.match(url).then(function(response) {
-        if(response) {
-          return response;
-        }
-        return fetch(url);
+          return response || fetch(url);
       });
     })
   );
