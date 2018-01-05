@@ -15,6 +15,7 @@ self.addEventListener('install', function(event) {
   );
 });
 
+
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
@@ -36,4 +37,12 @@ self.addEventListener('fetch', function(event) {
       return response || fetch(event.request);
     })
   );
+});
+
+// listen for the "message" event, and call
+// skipWaiting if you get the appropriate message
+self.addEventListener('message', function(event) {
+  if(event.data.skipWaiting) {
+    self.skipWaiting();
+  }
 });
